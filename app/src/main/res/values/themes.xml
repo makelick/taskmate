@@ -9,5 +9,30 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="imageRadiobutton1" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/cover_radiobutton1</item>
+    </style>
+    <style name="imageRadiobutton2" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/cover_radiobutton2</item>
+    </style>
+    <style name="imageRadiobutton3" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/cover_radiobutton3</item>
+    </style>
+    <style name="imageRadiobutton4" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/cover_radiobutton4</item>
+    </style>
+    <style name="imageRadiobutton5" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/cover_radiobutton5</item>
+    </style>
+    <style name="imageRadiobutton6" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/cover_radiobutton6</item>
+    </style>
+    <style name="imageRadiobutton7" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/cover_radiobutton7</item>
+    </style>
+    <style name="imageRadiobutton8" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/cover_radiobutton8</item>
+    </style>
+
     <style name="Theme.Taskmate" parent="Base.Theme.Taskmate" />
 </resources>

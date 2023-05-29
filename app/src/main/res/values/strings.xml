@@ -5,4 +5,14 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_profile">Profile</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="save_action">Save</string>
+    <string name="name">Name</string>
+    <string name="description">Desription</string>
+
+    <string-array name="board_statuses">
+        <item>Backlog</item>
+        <item>Todo</item>
+        <item>In progress</item>
+        <item>Done</item>
+    </string-array>
 </resources>
