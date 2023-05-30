@@ -15,4 +15,10 @@
         <item>In progress</item>
         <item>Done</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="backlog">Backlog</string>
+    <string name="todo">Todo</string>
+    <string name="in_progress">In progress</string>
+    <string name="done">Done</string>
 </resources>

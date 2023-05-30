@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.makelick.taskmate2.R
 import com.makelick.taskmate2.databinding.FragmentDashboardBinding
 import com.makelick.taskmate2.model.Board
@@ -23,7 +24,11 @@ class DashboardFragment : Fragment() {
     ): View {
         binding = FragmentDashboardBinding.inflate(layoutInflater)
 
-        val listAdapter = BoardAdapter()
+        val listAdapter = DashboardAdapter {
+            val action = DashboardFragmentDirections.actionDashboardFragmentToBoardFragment()
+            findNavController().navigate(action)
+        }
+
         listAdapter.submitList(listOf(
             Board("test", R.drawable.board_cover_1),
             Board("test2", R.drawable.board_cover_2),

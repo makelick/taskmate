@@ -2,16 +2,17 @@ package com.makelick.taskmate2.ui.signin
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.makelick.taskmate2.databinding.FragmentSignInBinding
+import net.openid.appauth.AuthState
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationResponse
 
@@ -50,12 +51,7 @@ class SignInFragment : Fragment() {
         signInViewModel.jwtLiveData.observe(viewLifecycleOwner) {
             bindInfo()
             signInViewModel.persistState(requireActivity())
-        }
-
-        signInViewModel.authStateLiveData.observe(viewLifecycleOwner) {
-            if (it.isAuthorized) {
-                navigateToBoards()
-            }
+            navigateIfSuccessful(signInViewModel.authStateLiveData.value)
         }
     }
 
@@ -70,10 +66,7 @@ class SignInFragment : Fragment() {
 
         signInViewModel.setAuthState(authorizationResponse, error)
 
-        // exchange code for token
-
 //        val authCode = authorizationResponse?.authorizationCode // for request to backend
-
         if (authorizationResponse != null) {
             signInViewModel.exchangeAuthorizationCode(authorizationResponse)
         }
@@ -94,8 +87,12 @@ class SignInFragment : Fragment() {
         }
     }
 
-    private fun navigateToBoards() {
-        val action = SignInFragmentDirections.actionSignInFragmentToMainActivity()
-        findNavController().navigate(action)
+    private fun navigateIfSuccessful(authState: AuthState?) {
+        if (authState != null) {
+            if (authState.isAuthorized) {
+                val action = SignInFragmentDirections.actionSignInFragmentToMainActivity()
+                findNavController().navigate(action)
+            }
+        }
     }
 }
