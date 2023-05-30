@@ -6,10 +6,15 @@ import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
 import android.util.Base64
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.auth0.android.jwt.JWT
+import com.makelick.taskmate2.network.TaskmateApi
+import com.makelick.taskmate2.network.TaskmateApiAuthCode
+import kotlinx.coroutines.launch
 import net.openid.appauth.AppAuthConfiguration
 import net.openid.appauth.AuthState
 import net.openid.appauth.AuthorizationException
@@ -24,15 +29,15 @@ import org.json.JSONException
 import java.security.MessageDigest
 import java.security.SecureRandom
 
-class SignInViewModel: ViewModel() {
+class SignInViewModel : ViewModel() {
     private var authState = MutableLiveData(AuthState())
     private var jwt = MutableLiveData<JWT>()
     private lateinit var authorizationService: AuthorizationService
     private lateinit var authServiceConfig: AuthorizationServiceConfiguration
 
 
-    val jwtLiveData : LiveData<JWT> = jwt
-    val authStateLiveData : LiveData<AuthState> = authState
+    val jwtLiveData: LiveData<JWT> = jwt
+    val authStateLiveData: LiveData<AuthState> = authState
 
     fun attemptAuthorization(): Intent {
         // code verifier
@@ -74,6 +79,13 @@ class SignInViewModel: ViewModel() {
 
     }
 
+    fun backendRequest(authCode: String) {
+        viewModelScope.launch {
+            val response = TaskmateApi.retrofitService.login(TaskmateApiAuthCode(authCode))
+            Log.d("SignInViewModel", "backendRequest: $response")
+        }
+    }
+
     fun exchangeAuthorizationCode(authorizationResponse: AuthorizationResponse) {
         val tokenExchangeRequest = authorizationResponse.createTokenExchangeRequest()
         authorizationService.performTokenRequest(tokenExchangeRequest) { response, exception ->
@@ -81,6 +93,7 @@ class SignInViewModel: ViewModel() {
                 authState.value = AuthState()
             } else {
                 if (response != null) {
+                    Log.d("SignInViewModel", "idToken: ${response.idToken}")
                     authState.value?.update(response, exception)
                     jwt.value = JWT(response.idToken!!)
                 }
