@@ -1,4 +1,4 @@
-package com.makelick.taskmate2.ui.board
+package com.makelick.taskmate2.ui.dashboard.board
 
 import androidx.lifecycle.ViewModel
 

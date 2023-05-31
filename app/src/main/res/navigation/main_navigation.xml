@@ -26,7 +26,7 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/boardFragment"
-        android:name="com.makelick.taskmate2.ui.board.BoardFragment"
+        android:name="com.makelick.taskmate2.ui.dashboard.board.BoardFragment"
         android:label="BoardFragment"
         tools:layout="@layout/fragment_board" />
 </navigation>

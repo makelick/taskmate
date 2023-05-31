@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.makelick.taskmate2.databinding.BoardItemBinding
 import com.makelick.taskmate2.model.Board
 
@@ -28,7 +29,7 @@ class DashboardAdapter(private val clickListener: ((Board) -> Unit)) : ListAdapt
         fun bind(board: Board) {
             binding.apply {
                 boardName.text = board.name
-                boardCover.setImageResource(board.image)
+                boardCover.load(board.imageUrl)
 
             }
         }

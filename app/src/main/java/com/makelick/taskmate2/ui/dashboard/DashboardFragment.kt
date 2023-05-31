@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.makelick.taskmate2.R
 import com.makelick.taskmate2.databinding.FragmentDashboardBinding
-import com.makelick.taskmate2.model.Board
+import com.makelick.taskmate2.network.TaskmateApi
+import com.makelick.taskmate2.ui.MainActivity
+import kotlinx.coroutines.launch
 
 /**
  * A fragment representing a list of Items.
@@ -29,16 +31,11 @@ class DashboardFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        listAdapter.submitList(listOf(
-            Board("test", R.drawable.board_cover_1),
-            Board("test2", R.drawable.board_cover_2),
-            Board("test3", R.drawable.board_cover_3),
-            Board("test4", R.drawable.board_cover_4),
-            Board("test5", R.drawable.board_cover_5),
-            Board("test6", R.drawable.board_cover_6),
-            Board("test7", R.drawable.board_cover_7),
-            Board("test8", R.drawable.board_cover_8)
-        ))
+        lifecycleScope.launch {
+            val token = (activity as MainActivity).token
+            val boards = TaskmateApi.retrofitService.getBoards("Bearer_$token")
+            listAdapter.submitList(boards)
+        }
 
 
         binding.list.apply {

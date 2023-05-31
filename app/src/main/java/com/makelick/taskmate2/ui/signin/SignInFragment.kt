@@ -2,7 +2,6 @@ package com.makelick.taskmate2.ui.signin
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,13 +66,8 @@ class SignInFragment : Fragment() {
 
         signInViewModel.setAuthState(authorizationResponse, error)
 
-        val authCode = authorizationResponse?.authorizationCode
-        val idToken = authorizationResponse?.idToken
-        Log.d("SignInFragment", "authCode: $authCode")
-        Log.d("SignInFragment", "idToken: $idToken")
         if (authorizationResponse != null) {
-            signInViewModel.exchangeAuthorizationCode(authorizationResponse)
-//            signInViewModel.backendRequest(authCode!!)
+            signInViewModel.exchangeAuthorizationCode(authorizationResponse, requireActivity())
         }
 
     }

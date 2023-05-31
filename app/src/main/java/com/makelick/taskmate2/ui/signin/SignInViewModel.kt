@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.auth0.android.jwt.JWT
 import com.makelick.taskmate2.network.TaskmateApi
-import com.makelick.taskmate2.network.TaskmateApiAuthCode
 import kotlinx.coroutines.launch
 import net.openid.appauth.AppAuthConfiguration
 import net.openid.appauth.AuthState
@@ -79,14 +78,16 @@ class SignInViewModel : ViewModel() {
 
     }
 
-    fun backendRequest(authCode: String) {
+    private fun backendRequest(idToken: String, context: Context) {
         viewModelScope.launch {
-            val response = TaskmateApi.retrofitService.login(TaskmateApiAuthCode(authCode))
-            Log.d("SignInViewModel", "backendRequest: $response")
+            val requestBody = mapOf("idToken" to idToken)
+            val response = TaskmateApi.retrofitService.login(requestBody)["token"]!!
+            jwt.value = JWT(response)
+            persistToken(context)
         }
     }
 
-    fun exchangeAuthorizationCode(authorizationResponse: AuthorizationResponse) {
+    fun exchangeAuthorizationCode(authorizationResponse: AuthorizationResponse, context: Context) {
         val tokenExchangeRequest = authorizationResponse.createTokenExchangeRequest()
         authorizationService.performTokenRequest(tokenExchangeRequest) { response, exception ->
             if (exception != null) {
@@ -95,7 +96,7 @@ class SignInViewModel : ViewModel() {
                 if (response != null) {
                     Log.d("SignInViewModel", "idToken: ${response.idToken}")
                     authState.value?.update(response, exception)
-                    jwt.value = JWT(response.idToken!!)
+                    backendRequest(response.idToken!!, context)
                 }
             }
         }
@@ -133,6 +134,17 @@ class SignInViewModel : ViewModel() {
         context.getSharedPreferences(AuthConstants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
             .edit()
             .putString(AuthConstants.AUTH_STATE, authState.value?.jsonSerializeString())
+            .apply()
+    }
+
+    fun persistToken(context: Context) {
+        Log.d("SignInViewModel", "jwt in SharedPreferences: ${jwt.value?.toString()}")
+        context.getSharedPreferences(
+            AuthConstants.SHARED_PREFERENCES_TOKEN_NAME,
+            Context.MODE_PRIVATE
+        )
+            .edit()
+            .putString(AuthConstants.TOKEN, jwt.value?.toString())
             .apply()
     }
 
