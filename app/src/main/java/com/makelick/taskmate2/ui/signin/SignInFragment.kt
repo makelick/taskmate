@@ -11,7 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.makelick.taskmate2.R
 import com.makelick.taskmate2.databinding.FragmentSignInBinding
+import com.makelick.taskmate2.ui.MainActivity
 import net.openid.appauth.AuthState
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationResponse
@@ -89,8 +91,12 @@ class SignInFragment : Fragment() {
     private fun navigateIfSuccessful(authState: AuthState?) {
         if (authState != null) {
             if (authState.isAuthorized) {
-                val action = SignInFragmentDirections.actionSignInFragmentToMainActivity()
-                findNavController().navigate(action)
+                    if (activity is StartActivity) {
+                        findNavController().navigate(R.id.mainActivity)
+                    } else if (activity is MainActivity) {
+                        findNavController().navigate(R.id.profileFragment)
+                    }
+
             }
         }
     }

@@ -25,6 +25,7 @@
             android:text="@string/todo"/>
 
         <com.google.android.material.tabs.TabItem
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/in_progress"/>
@@ -46,5 +47,14 @@
         android:layout_marginHorizontal="@dimen/default_margin"
         android:layout_marginTop="@dimen/default_margin"
         tools:listitem="@layout/issue_item" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_issue"
+        android:layout_margin="@dimen/default_margin"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -137,7 +137,7 @@ class SignInViewModel : ViewModel() {
             .apply()
     }
 
-    fun persistToken(context: Context) {
+    private fun persistToken(context: Context) {
         Log.d("SignInViewModel", "jwt in SharedPreferences: ${jwt.value?.toString()}")
         context.getSharedPreferences(
             AuthConstants.SHARED_PREFERENCES_TOKEN_NAME,

@@ -9,7 +9,6 @@ import com.makelick.taskmate2.databinding.FragmentBoardBinding
 
 class BoardFragment : Fragment() {
 
-    private lateinit var viewModel: BoardViewModel
     private lateinit var binding: FragmentBoardBinding
 
     override fun onCreateView(
