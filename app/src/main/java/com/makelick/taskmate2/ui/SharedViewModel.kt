@@ -9,11 +9,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.auth0.android.jwt.JWT
 import com.makelick.taskmate2.model.Board
+import com.makelick.taskmate2.model.BoardCreation
+import com.makelick.taskmate2.model.Issue
+import com.makelick.taskmate2.model.IssueCreation
+import com.makelick.taskmate2.model.Status
 import com.makelick.taskmate2.model.User
 import com.makelick.taskmate2.network.TaskmateApi
 import com.makelick.taskmate2.ui.signin.AuthConstants
 import kotlinx.coroutines.launch
-import net.openid.appauth.AuthState
 
 class SharedViewModel(activity: MainActivity) : ViewModel() {
 
@@ -22,33 +25,72 @@ class SharedViewModel(activity: MainActivity) : ViewModel() {
     private val _boardsList = MutableLiveData<List<Board>>()
     val boardsList: LiveData<List<Board>> = _boardsList
 
+    private val _currentBoard = MutableLiveData<Board?>(null)
+    val currentBoard: LiveData<Board?> = _currentBoard
+
+    private val _currentIssue = MutableLiveData<Issue?>(null)
+    val currentIssue: LiveData<Issue?> = _currentIssue
+
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
 
+    fun setCurrentBoard(board: Board?) {
+        _currentBoard.value = board
+    }
 
-    fun createBoard(name: String, imageUrl: String) {
-        val board = mapOf("name" to name, "imageUrl" to imageUrl)
+    fun setCurrentIssue(issue: Issue?) {
+        _currentIssue.value = issue
+    }
+
+    fun createIssue(title: String, description: String, status: Status) {
+        val newIssue = IssueCreation(title, description, status)
         viewModelScope.launch {
-            TaskmateApi.retrofitService.createBoard("Bearer_$token", board)
+            TaskmateApi.retrofitService.createIssue("Bearer_$token", currentBoard.value!!.id, newIssue)
         }
     }
 
-    fun getUser(application: Application) {
+    fun updateIssue(title: String, description: String, status: Status) {
         viewModelScope.launch {
-            val jsonString = application
-                .getSharedPreferences(AuthConstants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-                .getString(AuthConstants.AUTH_STATE, "")!!
-
-            val jwt = JWT(AuthState.jsonDeserialize(jsonString).idToken!!)
-//            val id = jwt.getClaim("sub").asString()!!
-//            _user.value = TaskmateApi.retrofitService.getUser("Bearer_$token", id)
-            _user.value = User(
-                id = jwt.getClaim("sub").asString()!!,
-                email = jwt.getClaim("email").asString()!!,
-                profileImageUrl = jwt.getClaim("picture").asString()!!,
-                firstName = jwt.getClaim("given_name").asString()!!,
-                lastName = jwt.getClaim("family_name").asString()?: ""
+            TaskmateApi.retrofitService.updateIssue(
+                "Bearer_$token",
+                currentBoard.value!!.id,
+                IssueCreation(title, description, status)
             )
+            _currentIssue.value = null
+        }
+    }
+
+    fun getFullBoard(boardId: Int) {
+        viewModelScope.launch {
+            val board = TaskmateApi.retrofitService.getFullBoard("Bearer_$token", boardId)
+            _currentBoard.value = board
+        }
+    }
+
+    fun createBoard(name: String, imageUrl: String) {
+        val newBoard = BoardCreation(name, imageUrl)
+        viewModelScope.launch {
+            TaskmateApi.retrofitService.createBoard("Bearer_$token", newBoard)
+        }
+    }
+
+    fun updateBoard(id: Int, name: String, imageUrl: String) {
+        viewModelScope.launch {
+            TaskmateApi.retrofitService.updateBoard(
+                "Bearer_$token",
+                id,
+                BoardCreation(name, imageUrl)
+            )
+            _currentBoard.value = null
+        }
+    }
+
+    fun getUser() {
+        viewModelScope.launch {
+            val jwt = JWT(token)
+            val id = jwt.getClaim("userId").asString()!!
+            _user.value = TaskmateApi.retrofitService.getUser("Bearer_$token", id)
+
         }
     }
 
@@ -63,6 +105,13 @@ class SharedViewModel(activity: MainActivity) : ViewModel() {
             .edit()
             .putString(AuthConstants.AUTH_STATE, null)
             .apply()
+    }
+
+    fun deleteBoard() {
+        viewModelScope.launch {
+            TaskmateApi.retrofitService.deleteBoard("Bearer_$token", _currentBoard.value!!.id)
+            _currentBoard.value = null
+        }
     }
 
 }

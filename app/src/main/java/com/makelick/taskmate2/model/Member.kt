@@ -1,10 +1,9 @@
 package com.makelick.taskmate2.model
 
-data class Issue(
+data class Member(
     val id: Int,
     val updatedAt: String,
     val createdAt: String,
-    val title: String,
-    val description: String,
-    val status: Status,
+    val role: Roles,
+    val user: User
 )

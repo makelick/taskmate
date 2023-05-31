@@ -1,13 +1,13 @@
 package com.makelick.taskmate2.ui.dashboard
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.makelick.taskmate2.databinding.FragmentDashboardBinding
 import com.makelick.taskmate2.ui.MainActivity
 import com.makelick.taskmate2.ui.SharedViewModel
@@ -32,7 +32,10 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val listAdapter = DashboardAdapter {
+        sharedViewModel.setCurrentBoard(null)
+
+        val listAdapter = DashboardAdapter { board ->
+            sharedViewModel.setCurrentBoard(board)
             val action = DashboardFragmentDirections.actionDashboardFragmentToBoardFragment()
             findNavController().navigate(action)
         }
@@ -43,7 +46,7 @@ class DashboardFragment : Fragment() {
         }
 
         binding.list.apply {
-            layoutManager =  LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context)
             adapter = listAdapter
         }
     }

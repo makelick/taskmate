@@ -5,5 +5,7 @@ data class Board(
     val name: String,
     val imageUrl: String,
     val updatedAt: String,
-    val createdAt: String
+    val createdAt: String,
+    val members: List<Member>? = null,
+    val issues: List<Issue>? = null
 )

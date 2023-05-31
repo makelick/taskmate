@@ -37,21 +37,31 @@
     <fragment
         android:id="@+id/boardFragment"
         android:name="com.makelick.taskmate2.ui.dashboard.board.BoardFragment"
-        android:label="BoardFragment"
-        tools:layout="@layout/fragment_board" >
+        android:label="Board"
+        tools:layout="@layout/fragment_board">
         <action
             android:id="@+id/action_boardFragment_to_issueFragment"
             app:destination="@id/issueFragment" />
+        <action
+            android:id="@+id/action_boardFragment_to_creatingBoardFragment"
+            app:destination="@id/creatingBoardFragment" />
+        <action
+            android:id="@+id/action_boardFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/issueFragment"
         android:name="com.makelick.taskmate2.ui.dashboard.board.issue.IssueFragment"
-        android:label="IssueFragment"
-        tools:layout="@layout/fragment_creating_issue"/>
+        android:label="Issue"
+        tools:layout="@layout/fragment_creating_issue" >
+        <action
+            android:id="@+id/action_issueFragment_to_boardFragment"
+            app:destination="@id/boardFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signInFragment2"
         android:name="com.makelick.taskmate2.ui.signin.SignInFragment"
-        android:label="SignInFragment"
+        android:label="Sign In"
         tools:layout="@layout/fragment_sign_in">
         <action
             android:id="@+id/action_signInFragment2_to_profileFragment"

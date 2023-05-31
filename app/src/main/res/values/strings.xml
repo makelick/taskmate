@@ -22,4 +22,6 @@
     <string name="in_progress">In progress</string>
     <string name="done">Done</string>
     <string name="log_out">Log out</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>

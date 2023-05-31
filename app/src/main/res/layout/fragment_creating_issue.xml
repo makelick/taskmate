@@ -12,7 +12,7 @@
         android:layout_margin="@dimen/default_margin">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/board_name_label"
+            android:id="@+id/issue_name_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_margin"
@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/board_name"
+                android:id="@+id/issue_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textAutoComplete|textCapWords"
@@ -33,24 +33,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_margin"
-            android:id="@+id/board_status"
-            app:layout_constraintTop_toBottomOf="@id/board_name_label"
+            android:id="@+id/issue_status"
+            app:layout_constraintTop_toBottomOf="@id/issue_name_label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:entries="@array/board_statuses"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/board_description_label"
+            android:id="@+id/issue_description_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_margin"
             android:hint="@string/description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/board_status">
+            app:layout_constraintTop_toBottomOf="@id/issue_status">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/board_description"
+                android:id="@+id/issue_description"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textAutoComplete|textCapWords" />
@@ -64,7 +64,7 @@
             android:text="@string/save_action"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/board_description_label"
+            app:layout_constraintTop_toBottomOf="@id/issue_description_label"
             android:background="@color/design_default_color_primary"
             android:textColor="@color/white"/>
 

@@ -40,6 +40,20 @@ class CreatingBoardFragment : Fragment() {
             navigateToBoard()
         }
 
+        if (sharedViewModel.currentBoard.value != null) {
+            binding.boardName.setText(sharedViewModel.currentBoard.value!!.name)
+            imageUrl = sharedViewModel.currentBoard.value!!.imageUrl
+
+            binding.saveAction.setOnClickListener {
+                sharedViewModel.updateBoard(
+                    sharedViewModel.currentBoard.value!!.id,
+                    binding.boardName.text.toString(),
+                    imageUrl
+                )
+                navigateToBoard()
+            }
+        }
+
     }
 
     private fun onRadiobuttonChecked(group: RadioGroup, checkedid: Int) {
