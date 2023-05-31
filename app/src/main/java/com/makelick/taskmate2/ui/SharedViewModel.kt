@@ -1,6 +1,5 @@
 package com.makelick.taskmate2.ui
 
-import android.app.Application
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -111,6 +110,13 @@ class SharedViewModel(activity: MainActivity) : ViewModel() {
         viewModelScope.launch {
             TaskmateApi.retrofitService.deleteBoard("Bearer_$token", _currentBoard.value!!.id)
             _currentBoard.value = null
+        }
+    }
+
+    fun deleteIssue(issue: Issue) {
+        viewModelScope.launch {
+            TaskmateApi.retrofitService.deleteIssue("Bearer_$token", _currentIssue.value!!.id)
+            _currentIssue.value = null
         }
     }
 

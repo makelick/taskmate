@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.makelick.taskmate2.databinding.IssueItemBinding
 import com.makelick.taskmate2.model.Issue
 
-class IssueAdapter(private val clickListener: ((Issue) -> Unit)) : ListAdapter<Issue, IssueAdapter.IssueViewHolder>(
+class IssueAdapter(
+    private val clickListener: ((Issue) -> Unit),
+    private val deleteClickListener: ((Issue) -> Unit)
+) : ListAdapter<Issue, IssueAdapter.IssueViewHolder>(
     IssueDiffCallback()
 ) {
 
@@ -21,10 +24,13 @@ class IssueAdapter(private val clickListener: ((Issue) -> Unit)) : ListAdapter<I
         holder.itemView.setOnClickListener {
             clickListener(issue)
         }
+        holder.binding.deleteIssue.setOnClickListener {
+            deleteClickListener(issue)
+        }
         holder.bind(issue)
     }
 
-    class IssueViewHolder(private val binding: IssueItemBinding) :
+    class IssueViewHolder(val binding: IssueItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(issue: Issue) {

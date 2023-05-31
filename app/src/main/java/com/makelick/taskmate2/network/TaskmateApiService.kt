@@ -96,7 +96,7 @@ interface TaskmateApiService {
     suspend fun deleteIssue(
         @Header("Authorization") token: String,
         @Path("issueId") issueId: Int
-    )
+    ): Response<Unit>
 }
 
 object TaskmateApi {

@@ -30,7 +30,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedViewModel.getUser(requireActivity().application)
+        sharedViewModel.getUser()
         sharedViewModel.user.observe(viewLifecycleOwner) { user ->
             bindView(user)
         }

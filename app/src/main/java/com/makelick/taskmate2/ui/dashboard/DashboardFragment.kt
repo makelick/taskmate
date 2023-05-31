@@ -40,7 +40,6 @@ class DashboardFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        sharedViewModel.getBoards()
         sharedViewModel.boardsList.observe(viewLifecycleOwner) {
             listAdapter.submitList(it)
         }
@@ -49,5 +48,10 @@ class DashboardFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = listAdapter
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        sharedViewModel.getBoards()
     }
 }
